@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,7 +20,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
-public  abstract class AbstractEntity {
+@EntityListeners({AuditingEntityListener.class})
+public abstract class AbstractEntity {
 
     @Id
     @GeneratedValue(generator = "DEMO_ID_GENERATE")
@@ -28,18 +32,22 @@ public  abstract class AbstractEntity {
     /**
      * 创建时间
      */
-    @Column
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @CreatedDate
     private Date createTime;
 
     /**
      * 更新时间
      */
-    @Column
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @LastModifiedDate
     private Date updateTime;
 
-    /** 版本号 */
+    /**
+     * 版本号
+     */
     @Version
     int version;
 }

@@ -38,15 +38,4 @@ public class RoleEntity extends AbstractEntity {
     @Column
     private String status;
 
-    /**
-     * 创建时间
-     */
-    @Column
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    @Column
-    private Date updateTime;
 }
