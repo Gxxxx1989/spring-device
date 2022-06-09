@@ -9,19 +9,18 @@ import java.util.concurrent.Executor;
 
 
 /**
- *
  * 异步线程池配置
  *
- * @author  guoxi@tg-hd.com
+ * @author guoxi@tg-hd.com
  * @since 2022年6月9日
- *
  */
 @Configuration
 @EnableAsync
 public class AsyncConfiguration {
-    
+
     /**
      * 声明一个线程池(并指定线程池的名字)
+     *
      * @return Executor
      */
     @Bean("taskExecutor")

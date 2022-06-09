@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 /**
  *
  * 启动类
- * EnableJpaAuditing 启用JPA注解
+ * EnableJpaAuditing 启用JPA审计注解
  *
  * @author  guoxi@tg-hd.com
  * @since 2022/6/9 17:39
