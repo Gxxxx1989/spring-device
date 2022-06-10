@@ -15,7 +15,7 @@ import java.io.IOException;
 
 /**
  *
- * 未登录处理类
+ * 匿名访问（未登录访问）处理器
  *
  * @author  guoxi@tg-hd.com
  * @since 2022/6/10 17:06

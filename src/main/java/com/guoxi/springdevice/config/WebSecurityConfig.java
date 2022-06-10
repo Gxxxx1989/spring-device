@@ -1,9 +1,6 @@
 package com.guoxi.springdevice.config;
 
-import com.guoxi.springdevice.handler.AccountLogoutSuccessHandler;
-import com.guoxi.springdevice.handler.AuthEntryPoint;
-import com.guoxi.springdevice.handler.AuthFailureHandler;
-import com.guoxi.springdevice.handler.AuthSuccessHandler;
+import com.guoxi.springdevice.handler.*;
 import com.guoxi.springdevice.service.UserLoginServiceImpl;
 import com.guoxi.springdevice.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +22,35 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserLoginServiceImpl userService;
-    private final PasswordEncoder passwordEncoder;
 
+    /**
+     * 数据库查询用户服务
+     */
+    private final UserLoginServiceImpl userService;
+    /**
+     * 密码
+     */
+    private final PasswordEncoder passwordEncoder;
+    /**
+     * 登录成功
+     */
     private final AuthSuccessHandler authSuccessHandler;
+    /**
+     * 登录失败
+     */
     private final AuthFailureHandler authFailureHandler;
+    /**
+     * 登出成功
+     */
     private final AccountLogoutSuccessHandler accountLogoutSuccessHandler;
+    /**
+     * 未登录访问
+     */
     private final AuthEntryPoint authEntryPoint;
+    /**
+     * 权限不足
+     */
+    private final CustomizeAccessDeniedHandler customizeAccessDeniedHandler;
 
     /**
      * 配置认证方式
@@ -65,22 +84,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/v2/**", "/api/**").permitAll()
-                .antMatchers("/register", "/register/**").permitAll()
-                .antMatchers("/**").authenticated()
+                    .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/v2/**", "/api/**").permitAll()
+                    .antMatchers("/register", "/register/**").permitAll()
+                    .antMatchers("/**").authenticated()
                 .and()
-                .formLogin()
-                // 设置登录接口路径，登录方式为 post 请求，字段为用户名 username 及密码 password
-                .loginProcessingUrl("/login")
-                .successHandler(authSuccessHandler)
-                .failureHandler(authFailureHandler)
+                    .formLogin()
+                    // 设置登录接口路径，登录方式为 post 请求，字段为用户名 username 及密码 password
+                    .loginProcessingUrl("/login")
+                    .successHandler(authSuccessHandler)
+                    .failureHandler(authFailureHandler)
                 .and()
-                .logout()
-                .logoutSuccessHandler(accountLogoutSuccessHandler)
-                .deleteCookies("JSESSIONID")
+                    .logout()
+                    .logoutSuccessHandler(accountLogoutSuccessHandler)
+                    .deleteCookies("JSESSIONID")
                 .and()
-                .exceptionHandling()  // 异常处理
-                .authenticationEntryPoint(authEntryPoint)
-                .and().csrf().disable();
+                    .exceptionHandling()  // 异常处理
+                    .accessDeniedHandler(customizeAccessDeniedHandler)
+                    .authenticationEntryPoint(authEntryPoint)
+                .and()
+                    .sessionManagement()
+                    .maximumSessions(1)
+                .and()
+                .and()
+                    .csrf().disable();
     }
 }
