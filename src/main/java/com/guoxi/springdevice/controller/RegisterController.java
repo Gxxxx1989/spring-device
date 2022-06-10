@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022/6/10$
  */
 @RestController
-@RequestMapping(value = "/register")
+@RequestMapping(value = "/api/register")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class RegisterController {

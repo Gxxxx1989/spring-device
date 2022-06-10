@@ -40,7 +40,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     private final AuthFailureHandler authFailureHandler;
     /**
-     * 登出成功
+     * 注销
+     */
+    private final CustomizeLogoutHandler customizeLogoutHandler;
+
+    /**
+     * 注销成功
      */
     private final AccountLogoutSuccessHandler accountLogoutSuccessHandler;
     /**
@@ -85,7 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                     .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/v2/**", "/api/**").permitAll()
-                    .antMatchers("/register", "/register/**").permitAll()
+                    .antMatchers( "/api/register/**").permitAll()
                     .antMatchers("/**").authenticated()
                 .and()
                     .formLogin()
@@ -94,7 +99,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .successHandler(authSuccessHandler)
                     .failureHandler(authFailureHandler)
                 .and()
-                    .logout()
+                    .logout().permitAll()
+                    .addLogoutHandler(customizeLogoutHandler)
                     .logoutSuccessHandler(accountLogoutSuccessHandler)
                     .deleteCookies("JSESSIONID")
                 .and()

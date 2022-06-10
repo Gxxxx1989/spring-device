@@ -15,7 +15,7 @@ import java.io.IOException;
 
 /**
  *
- * 登出成功处理类
+ * 注销成功处理类
  *
  * @author  guoxi@tg-hd.com
  * @since 2022/6/10 17:02
