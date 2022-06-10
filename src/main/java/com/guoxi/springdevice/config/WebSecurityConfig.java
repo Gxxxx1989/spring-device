@@ -90,8 +90,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                     .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/v2/**", "/api/**").permitAll()
-                    .antMatchers( "/api/register/**").permitAll()
-                    .antMatchers("/**").authenticated()
+                    .antMatchers( "/private/api/register/**").permitAll()
+                    .anyRequest().authenticated()
                 .and()
                     .formLogin()
                     // 设置登录接口路径，登录方式为 post 请求，字段为用户名 username 及密码 password

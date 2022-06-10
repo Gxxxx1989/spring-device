@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/role")
+@RequestMapping(value = "/private/api/role")
 @CrossOrigin(origins = "*")
 public class RoleController extends AbstractController<RoleEntity, RoleRepository, RoleMapper, RoleService> {
 }

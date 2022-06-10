@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/Permission")
+@RequestMapping(value = "/private/api/Permission")
 @CrossOrigin(origins = "*")
 public class PermissionController extends AbstractController<PermissionEntity, PermissionRepository, PermissionMapper, PermissionService> {
 }
