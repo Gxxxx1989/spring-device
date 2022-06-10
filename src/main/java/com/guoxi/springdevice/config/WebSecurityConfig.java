@@ -43,9 +43,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
     }
 
+    /**
+     * 放行静态资源
+     *
+     * @param web 参数
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
+        web.ignoring().antMatchers("/**/*.css", "/**/*.js", "/img/**", "/admin/images/**"
+        );
     }
 
     /**
@@ -53,27 +59,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * 只有拥有 USER 角色的用户才能够正常访问，
      * 而/api/admin/**路径只允许 ADMIN 角色访问。
      * /register 和/register/下的所有路径允许所有用户访问，而除此之外的路径至少先通过认证才能访问。
+     *
      * @param http 配置参数
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers("/swagger-ui.html","/swagger-resources/**","/webjars/**","/v2/**","/api/**").permitAll()
-                    .antMatchers("/register", "/register/**").permitAll()
-                    .antMatchers("/**").authenticated()
+                .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/v2/**", "/api/**").permitAll()
+                .antMatchers("/register", "/register/**").permitAll()
+                .antMatchers("/**").authenticated()
                 .and()
-                    .formLogin()
-                    // 设置登录接口路径，登录方式为 post 请求，字段为用户名 username 及密码 password
-                    .loginProcessingUrl("/login")
-                    .successHandler(authSuccessHandler)
-                    .failureHandler(authFailureHandler)
-                    .permitAll()
+                .formLogin()
+                // 设置登录接口路径，登录方式为 post 请求，字段为用户名 username 及密码 password
+                .loginProcessingUrl("/login")
+                .successHandler(authSuccessHandler)
+                .failureHandler(authFailureHandler)
                 .and()
-                    .logout()
-                    .logoutSuccessHandler(accountLogoutSuccessHandler)
-                    .deleteCookies("JSESSIONID")
-                    .and()
-                    .exceptionHandling()  // 异常处理
-                    .authenticationEntryPoint(authEntryPoint);
+                .logout()
+                .logoutSuccessHandler(accountLogoutSuccessHandler)
+                .deleteCookies("JSESSIONID")
+                .and()
+                .exceptionHandling()  // 异常处理
+                .authenticationEntryPoint(authEntryPoint)
+                .and().csrf().disable();
     }
 }

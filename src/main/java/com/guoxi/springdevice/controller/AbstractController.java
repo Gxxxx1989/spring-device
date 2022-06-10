@@ -33,7 +33,7 @@ public class AbstractController<T extends AbstractEntity, R extends AbstractRepo
     }
 
     @DeleteMapping(value = "/deleteData")
-    public Boolean deleteUser(@RequestBody T entity) {
+    public Boolean deleteData(@RequestBody T entity) {
         return service.deleteData(entity);
     }
 
