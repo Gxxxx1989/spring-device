@@ -1,12 +1,8 @@
 package com.guoxi.springdevice.controller;
-
-import com.guoxi.springdevice.Repository.UserRepository;
-import com.guoxi.springdevice.mapper.UserMapper;
 import com.guoxi.springdevice.mybatis.entity.UserEntity;
 import com.guoxi.springdevice.service.UserService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author guoxi@tg-hd.com
@@ -14,6 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/register")
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*")
-public class RegisterController extends AbstractController<UserEntity, UserRepository, UserMapper, UserService> {
+public class RegisterController {
+
+    private final UserService userService;
+
+    @PostMapping(value = "/registerUser")
+    public Boolean registerUser(@RequestBody UserEntity userEntity) {
+        return userService.saveOrUpdateData(userEntity) != null;
+    }
 }

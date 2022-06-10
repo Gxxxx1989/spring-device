@@ -1,5 +1,11 @@
 package com.guoxi.springdevice.constant;
 
+/**
+ * 状态常量
+ *
+ * @author guoxi@tg-hd.com
+ * @since 2022/6/10 17:36
+ */
 public enum ReturnStatus {
     // 响应正常
     SUCCESS(1000, "服务器响应正常"),
@@ -49,8 +55,10 @@ public enum ReturnStatus {
     }
 
     public static String getMsgByCode(int statusCode) {
-        for (ReturnStatus rs: ReturnStatus.values()) {
-            if (rs.getStatusCode() == statusCode) return rs.getStatusMsg();
+        for (ReturnStatus rs : ReturnStatus.values()) {
+            if (rs.getStatusCode() == statusCode) {
+                return rs.getStatusMsg();
+            }
         }
         return "";
     }

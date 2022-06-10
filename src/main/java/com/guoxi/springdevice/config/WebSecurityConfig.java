@@ -4,6 +4,7 @@ import com.guoxi.springdevice.handler.AccountLogoutSuccessHandler;
 import com.guoxi.springdevice.handler.AuthEntryPoint;
 import com.guoxi.springdevice.handler.AuthFailureHandler;
 import com.guoxi.springdevice.handler.AuthSuccessHandler;
+import com.guoxi.springdevice.service.UserLoginServiceImpl;
 import com.guoxi.springdevice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserService userService;
+    private final UserLoginServiceImpl userService;
     private final PasswordEncoder passwordEncoder;
 
     private final AuthSuccessHandler authSuccessHandler;
@@ -57,6 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                    .antMatchers("/swagger-ui.html","/swagger-resources/**","/webjars/**","/v2/**","/api/**").permitAll()
                     .antMatchers("/register", "/register/**").permitAll()
                     .antMatchers("/**").authenticated()
                 .and()
