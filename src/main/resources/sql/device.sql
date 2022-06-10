@@ -11,11 +11,30 @@
  Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 09/06/2022 17:11:10
+ Date: 10/06/2022 18:23:12
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for menu
+-- ----------------------------
+DROP TABLE IF EXISTS `menu`;
+CREATE TABLE `menu`  (
+  `id` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '菜单名称',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '菜单地址',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `version` int NULL DEFAULT NULL COMMENT '版本号',
+  `parent_id` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '父菜单',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of menu
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for permission
@@ -53,6 +72,9 @@ CREATE TABLE `role`  (
 -- ----------------------------
 -- Records of role
 -- ----------------------------
+INSERT INTO `role` VALUES ('O-1654768732954-601ce950c9314ff5', '普通用户', '1', '2022-06-09 09:58:53', '2022-06-09 09:58:53', 0);
+INSERT INTO `role` VALUES ('O-1654768741580-d07b7034ad6546e9', '管理员', '1', '2022-06-09 09:59:02', '2022-06-09 09:59:02', 0);
+INSERT INTO `role` VALUES ('O-1654768749063-04e947595e554936', '经销商', '1', '2022-06-09 09:59:09', '2022-06-09 09:59:09', 0);
 
 -- ----------------------------
 -- Table structure for role_permission
@@ -90,9 +112,7 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('S-1654758903489-0553767cfb854209', 'sssss', '123456', '1', '2022-06-09 06:48:22', '2022-06-09 06:47:12', 1);
-INSERT INTO `user` VALUES ('S-1654759257116-f91b500f9fe1407b', 'guoxi', '123456', '1', '2022-06-09 06:48:22', '2022-06-09 06:47:12', 0);
-INSERT INTO `user` VALUES ('S-1654759374475-8adf4ead584d4c11', 'guoxi', '123456', '1', '2022-06-09 06:48:22', '2022-06-09 06:47:12', 0);
+INSERT INTO `user` VALUES ('S-1654842837715-ebc5da411ed948f1', 'guoxi', '$2a$10$wtb4jgOXWqltpFCxLNXy0OzlFUin625dQClATKB3nwEwYVQIDy3zC', '1', '2022-06-10 06:33:58', '2022-06-10 06:33:58', 0);
 
 -- ----------------------------
 -- Table structure for user_role
