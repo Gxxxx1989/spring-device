@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -27,27 +28,19 @@ public class PermissionEntity extends AbstractEntity {
     /**
      * 权限标题
      */
+    @Column
     private String title;
 
     /**
      * 权限动作
      */
+    @Column
     private String action;
 
     /**
      * 状态
      */
+    @Column
     private String status;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    private static final long serialVersionUID = 1L;
 }
