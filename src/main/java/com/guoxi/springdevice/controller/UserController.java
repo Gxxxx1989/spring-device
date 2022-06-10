@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/private/v1/user")
+@RequestMapping(value = "/api/user")
+@CrossOrigin(origins = "*")
 public class UserController extends AbstractController<UserEntity, UserRepository, UserMapper, UserService> {
 
 

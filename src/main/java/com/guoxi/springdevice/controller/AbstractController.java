@@ -3,7 +3,6 @@ package com.guoxi.springdevice.controller;
 import com.guoxi.springdevice.Repository.AbstractRepository;
 import com.guoxi.springdevice.common.AbstractEntity;
 import com.guoxi.springdevice.mapper.AbstractMapper;
-import com.guoxi.springdevice.mybatis.entity.UserEntity;
 import com.guoxi.springdevice.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +18,7 @@ import java.util.List;
  */
 public class AbstractController<T extends AbstractEntity, R extends AbstractRepository<T>, M extends AbstractMapper<T>, S extends AbstractService<T, R, M>> {
 
+    @SuppressWarnings("all")
     @Autowired
     private S service;
 
@@ -32,7 +32,7 @@ public class AbstractController<T extends AbstractEntity, R extends AbstractRepo
         return service.saveOrUpdateData(entity);
     }
 
-    @DeleteMapping(value = "/deleteUser")
+    @DeleteMapping(value = "/deleteData")
     public Boolean deleteUser(@RequestBody T entity) {
         return service.deleteData(entity);
     }

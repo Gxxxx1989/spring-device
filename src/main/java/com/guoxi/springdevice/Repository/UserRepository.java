@@ -9,5 +9,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserRepository extends AbstractRepository<UserEntity>{
-
+    /**
+     * 根据用户名查用户信息
+     * @param userName 用户名
+     * @return 用户实体类信息
+     */
+    UserEntity findByUserName(String  userName);
 }

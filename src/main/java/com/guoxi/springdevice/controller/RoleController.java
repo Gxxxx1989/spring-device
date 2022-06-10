@@ -5,6 +5,7 @@ import com.guoxi.springdevice.mapper.RoleMapper;
 import com.guoxi.springdevice.mybatis.entity.RoleEntity;
 import com.guoxi.springdevice.service.RoleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,5 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/private/v1/role")
+@CrossOrigin(origins = "*")
 public class RoleController extends AbstractController<RoleEntity, RoleRepository, RoleMapper, RoleService> {
 }

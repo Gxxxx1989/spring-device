@@ -5,6 +5,7 @@ import com.guoxi.springdevice.mapper.PermissionMapper;
 import com.guoxi.springdevice.mybatis.entity.PermissionEntity;
 import com.guoxi.springdevice.service.PermissionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,5 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/private/v1/Permission")
+@CrossOrigin(origins = "*")
 public class PermissionController extends AbstractController<PermissionEntity, PermissionRepository, PermissionMapper, PermissionService> {
 }
