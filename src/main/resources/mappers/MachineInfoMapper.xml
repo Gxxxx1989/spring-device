@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guoxi.springdevice.mapper.MachineInfoMapper">
+    <resultMap id="BaseResultMap" type="com.guoxi.springdevice.mybatis.entity.MachineInfoEntity">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="machine_type" jdbcType="VARCHAR" property="machineType"/>
+        <result column="machine_function" jdbcType="VARCHAR" property="machineFunction"/>
+        <result column="machine_param" jdbcType="VARCHAR" property="machineParam"/>
+        <result column="machine_attribute" jdbcType="VARCHAR" property="machineAttribute"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="used_duration" jdbcType="INTEGER" property="usedDuration"/>
+        <result column="machine_brand" jdbcType="VARCHAR" property="machineBrand"/>
+        <result column="machine_status" jdbcType="VARCHAR" property="machineStatus"/>
+        <result column="machine_work_time_once" jdbcType="INTEGER" property="machineWorkTimeOnce"/>
+        <result column="machine_province" jdbcType="VARCHAR" property="machineProvince"/>
+        <result column="machine_city" jdbcType="VARCHAR" property="machineCity"/>
+        <result column="cooperation_mode" jdbcType="VARCHAR" property="cooperationMode"/>
+        <result column="machine_city_id" jdbcType="VARCHAR" property="machineCityId"/>
+        <result column="machine_province_id" jdbcType="VARCHAR" property="machineProvinceId"/>
+        <result column="online_status" jdbcType="INTEGER" property="onlineStatus"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+        <result column="lock_status" jdbcType="INTEGER" property="lockStatus"/>
+        <result column="other_param" jdbcType="VARCHAR" property="otherParam"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, machine_type, machine_function, machine_param, machine_attribute, user_id, used_duration, 
+    machine_brand, machine_status, machine_work_time_once, machine_province, machine_city, 
+    cooperation_mode, machine_city_id, machine_province_id, online_status, last_login_time, 
+    lock_status, other_param, create_time, update_time, version
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from machine_info
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from machine_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.guoxi.springdevice.mybatis.entity.MachineInfoEntity">
+    insert into machine_info (id, machine_type, machine_function, 
+      machine_param, machine_attribute, user_id, 
+      used_duration, machine_brand, machine_status, 
+      machine_work_time_once, machine_province, machine_city, 
+      cooperation_mode, machine_city_id, machine_province_id, 
+      online_status, last_login_time, lock_status, 
+      other_param, create_time, update_time, 
+      version)
+    values (#{id,jdbcType=VARCHAR}, #{machineType,jdbcType=VARCHAR}, #{machineFunction,jdbcType=VARCHAR}, 
+      #{machineParam,jdbcType=VARCHAR}, #{machineAttribute,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{usedDuration,jdbcType=INTEGER}, #{machineBrand,jdbcType=VARCHAR}, #{machineStatus,jdbcType=VARCHAR}, 
+      #{machineWorkTimeOnce,jdbcType=INTEGER}, #{machineProvince,jdbcType=VARCHAR}, #{machineCity,jdbcType=VARCHAR}, 
+      #{cooperationMode,jdbcType=VARCHAR}, #{machineCityId,jdbcType=VARCHAR}, #{machineProvinceId,jdbcType=VARCHAR}, 
+      #{onlineStatus,jdbcType=INTEGER}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{lockStatus,jdbcType=INTEGER}, 
+      #{otherParam,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{version,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.guoxi.springdevice.mybatis.entity.MachineInfoEntity">
+        insert into machine_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="machineType != null">
+                machine_type,
+            </if>
+            <if test="machineFunction != null">
+                machine_function,
+            </if>
+            <if test="machineParam != null">
+                machine_param,
+            </if>
+            <if test="machineAttribute != null">
+                machine_attribute,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="usedDuration != null">
+                used_duration,
+            </if>
+            <if test="machineBrand != null">
+                machine_brand,
+            </if>
+            <if test="machineStatus != null">
+                machine_status,
+            </if>
+            <if test="machineWorkTimeOnce != null">
+                machine_work_time_once,
+            </if>
+            <if test="machineProvince != null">
+                machine_province,
+            </if>
+            <if test="machineCity != null">
+                machine_city,
+            </if>
+            <if test="cooperationMode != null">
+                cooperation_mode,
+            </if>
+            <if test="machineCityId != null">
+                machine_city_id,
+            </if>
+            <if test="machineProvinceId != null">
+                machine_province_id,
+            </if>
+            <if test="onlineStatus != null">
+                online_status,
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time,
+            </if>
+            <if test="lockStatus != null">
+                lock_status,
+            </if>
+            <if test="otherParam != null">
+                other_param,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="machineType != null">
+                #{machineType,jdbcType=VARCHAR},
+            </if>
+            <if test="machineFunction != null">
+                #{machineFunction,jdbcType=VARCHAR},
+            </if>
+            <if test="machineParam != null">
+                #{machineParam,jdbcType=VARCHAR},
+            </if>
+            <if test="machineAttribute != null">
+                #{machineAttribute,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="usedDuration != null">
+                #{usedDuration,jdbcType=INTEGER},
+            </if>
+            <if test="machineBrand != null">
+                #{machineBrand,jdbcType=VARCHAR},
+            </if>
+            <if test="machineStatus != null">
+                #{machineStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="machineWorkTimeOnce != null">
+                #{machineWorkTimeOnce,jdbcType=INTEGER},
+            </if>
+            <if test="machineProvince != null">
+                #{machineProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="machineCity != null">
+                #{machineCity,jdbcType=VARCHAR},
+            </if>
+            <if test="cooperationMode != null">
+                #{cooperationMode,jdbcType=VARCHAR},
+            </if>
+            <if test="machineCityId != null">
+                #{machineCityId,jdbcType=VARCHAR},
+            </if>
+            <if test="machineProvinceId != null">
+                #{machineProvinceId,jdbcType=VARCHAR},
+            </if>
+            <if test="onlineStatus != null">
+                #{onlineStatus,jdbcType=INTEGER},
+            </if>
+            <if test="lastLoginTime != null">
+                #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lockStatus != null">
+                #{lockStatus,jdbcType=INTEGER},
+            </if>
+            <if test="otherParam != null">
+                #{otherParam,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.guoxi.springdevice.mybatis.entity.MachineInfoEntity">
+        update machine_info
+        <set>
+            <if test="machineType != null">
+                machine_type = #{machineType,jdbcType=VARCHAR},
+            </if>
+            <if test="machineFunction != null">
+                machine_function = #{machineFunction,jdbcType=VARCHAR},
+            </if>
+            <if test="machineParam != null">
+                machine_param = #{machineParam,jdbcType=VARCHAR},
+            </if>
+            <if test="machineAttribute != null">
+                machine_attribute = #{machineAttribute,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="usedDuration != null">
+                used_duration = #{usedDuration,jdbcType=INTEGER},
+            </if>
+            <if test="machineBrand != null">
+                machine_brand = #{machineBrand,jdbcType=VARCHAR},
+            </if>
+            <if test="machineStatus != null">
+                machine_status = #{machineStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="machineWorkTimeOnce != null">
+                machine_work_time_once = #{machineWorkTimeOnce,jdbcType=INTEGER},
+            </if>
+            <if test="machineProvince != null">
+                machine_province = #{machineProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="machineCity != null">
+                machine_city = #{machineCity,jdbcType=VARCHAR},
+            </if>
+            <if test="cooperationMode != null">
+                cooperation_mode = #{cooperationMode,jdbcType=VARCHAR},
+            </if>
+            <if test="machineCityId != null">
+                machine_city_id = #{machineCityId,jdbcType=VARCHAR},
+            </if>
+            <if test="machineProvinceId != null">
+                machine_province_id = #{machineProvinceId,jdbcType=VARCHAR},
+            </if>
+            <if test="onlineStatus != null">
+                online_status = #{onlineStatus,jdbcType=INTEGER},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lockStatus != null">
+                lock_status = #{lockStatus,jdbcType=INTEGER},
+            </if>
+            <if test="otherParam != null">
+                other_param = #{otherParam,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.guoxi.springdevice.mybatis.entity.MachineInfoEntity">
+    update machine_info
+    set machine_type = #{machineType,jdbcType=VARCHAR},
+      machine_function = #{machineFunction,jdbcType=VARCHAR},
+      machine_param = #{machineParam,jdbcType=VARCHAR},
+      machine_attribute = #{machineAttribute,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      used_duration = #{usedDuration,jdbcType=INTEGER},
+      machine_brand = #{machineBrand,jdbcType=VARCHAR},
+      machine_status = #{machineStatus,jdbcType=VARCHAR},
+      machine_work_time_once = #{machineWorkTimeOnce,jdbcType=INTEGER},
+      machine_province = #{machineProvince,jdbcType=VARCHAR},
+      machine_city = #{machineCity,jdbcType=VARCHAR},
+      cooperation_mode = #{cooperationMode,jdbcType=VARCHAR},
+      machine_city_id = #{machineCityId,jdbcType=VARCHAR},
+      machine_province_id = #{machineProvinceId,jdbcType=VARCHAR},
+      online_status = #{onlineStatus,jdbcType=INTEGER},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      lock_status = #{lockStatus,jdbcType=INTEGER},
+      other_param = #{otherParam,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
