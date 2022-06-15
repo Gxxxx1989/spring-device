@@ -1,8 +1,10 @@
 package com.guoxi.springdevice.config;
 
+import com.guoxi.springdevice.filter.JwtLoginFilter;
+import com.guoxi.springdevice.filter.JwtTokenFilter;
 import com.guoxi.springdevice.handler.*;
+import com.guoxi.springdevice.provider.JwtAuthenticationProvider;
 import com.guoxi.springdevice.service.UserLoginServiceImpl;
-import com.guoxi.springdevice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -58,6 +61,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomizeAccessDeniedHandler customizeAccessDeniedHandler;
 
     /**
+     * 权限控制
+     */
+//    private final FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource;
+
+    /**
      * 配置认证方式
      *
      * @param auth 认证处理器
@@ -88,6 +96,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        JwtLoginFilter jwtLoginFilter = new JwtLoginFilter();
+        jwtLoginFilter.setAuthenticationManager(authenticationManagerBean());
+        jwtLoginFilter.setAuthenticationSuccessHandler(authSuccessHandler);
+        jwtLoginFilter.setAuthenticationFailureHandler(authFailureHandler);
+        JwtTokenFilter jwtTokenFilter = new JwtTokenFilter();
+
         http.authorizeRequests()
                     .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/v2/**", "/api/**").permitAll()
                     .antMatchers( "/private/api/register/**").permitAll()
@@ -96,6 +110,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .formLogin()
                     // 设置登录接口路径，登录方式为 post 请求，字段为用户名 username 及密码 password
                     .loginProcessingUrl("/login")
+                    //这里指定的是表单中name="username"的参数作为登录用户名，name="password"的参数作为登录密码
+                    .usernameParameter("username")
+                    .passwordParameter("password")
                     .successHandler(authSuccessHandler)
                     .failureHandler(authFailureHandler)
                 .and()
@@ -113,5 +130,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .and()
                     .csrf().disable();
+        //禁用session
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //过滤器
+        http.addFilter(jwtLoginFilter)
+        .addFilterAfter(jwtTokenFilter, JwtLoginFilter.class);
+        // 使用自定义验证实现器
+        JwtAuthenticationProvider jwtAuthenticationProvider = new JwtAuthenticationProvider(userService, passwordEncoder);
+
+        // 登陆验证信息
+        http.authenticationProvider(jwtAuthenticationProvider);
+
     }
 }

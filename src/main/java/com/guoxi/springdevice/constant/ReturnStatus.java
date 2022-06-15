@@ -26,6 +26,7 @@ public enum ReturnStatus {
     USER_ACCOUNT_LOCKED(4005, "用户账号锁定"),
     USER_ACCOUNT_NOT_EXIST(4006, "用户不存在"),
     USER_NOT_LOGIN(4007, "用户未登录"),
+    USER_LOGIN_FIELD(4008, "登录失败"),
 
     // 其他错误
     COMMON_ERROR(9000, "未知错误");

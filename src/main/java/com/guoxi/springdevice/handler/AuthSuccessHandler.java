@@ -2,6 +2,8 @@ package com.guoxi.springdevice.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.guoxi.springdevice.constant.ReturnStatus;
+import com.guoxi.springdevice.mybatis.entity.UserEntity;
+import com.guoxi.springdevice.utils.JwtUtils;
 import com.guoxi.springdevice.utils.ReturnJsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -25,11 +27,18 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         log.info("授权成功处理类AuthSuccessHandler--->{}", AuthSuccessHandler.class.getName());
+        ObjectMapper objectMapper = new ObjectMapper();
+        httpServletResponse.setContentType("application/json;charset=UTF-8");
+        UserEntity jwtUserDetails = (UserEntity) authentication.getPrincipal();
+        String json = objectMapper.writeValueAsString(jwtUserDetails);
+        //签发token
+        String jwtToken = JwtUtils.createJwtToken(json, 10);
 
         // 设置返回数据格式为 json
         httpServletResponse.setContentType("text/json;charset=utf-8");
-        ObjectMapper objectMapper = new ObjectMapper();
+
         ReturnJsonUtil<Object> rj = new ReturnJsonUtil<>(ReturnStatus.SUCCESS);
+        rj.setData(jwtToken);
         objectMapper.writeValue(httpServletResponse.getWriter(), rj);
     }
 }

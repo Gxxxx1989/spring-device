@@ -1,9 +1,20 @@
 package com.guoxi.springdevice.utils;
 
 import com.guoxi.springdevice.constant.ReturnStatus;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+/**
+ *
+ * 返回工具类
+ *
+ * @author  guoxi@tg-hd.com
+ * @since 2022/6/15 11:03
+ *
+ */
 @Data
+@AllArgsConstructor
 public class ReturnJsonUtil<T> {
     private int statusCode;
     private String statusMsg;
