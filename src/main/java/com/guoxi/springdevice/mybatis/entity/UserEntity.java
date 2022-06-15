@@ -1,7 +1,10 @@
 package com.guoxi.springdevice.mybatis.entity;
 
 import com.guoxi.springdevice.common.AbstractEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,16 +21,19 @@ import java.util.Collection;
  * @since 2022/6/9 10:32
  *
  */
+@EqualsAndHashCode(callSuper = false)
 @Data
-@Table(name = "user")
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name = "user")
 public class UserEntity extends AbstractEntity implements UserDetails {
 
     /**
      * 用户名
      */
     @Column
-    private String userName;
+    private String username;
 
     /**
      * 密码
@@ -41,6 +47,11 @@ public class UserEntity extends AbstractEntity implements UserDetails {
     @Column
     private String status;
 
+    @Column
+    private boolean enabled;
+
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -48,7 +59,7 @@ public class UserEntity extends AbstractEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return username;
     }
 
     @Override

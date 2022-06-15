@@ -9,6 +9,7 @@ import com.guoxi.springdevice.utils.ReturnJsonUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -51,11 +52,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             httpServletResponse.getWriter().write(new ObjectMapper().writeValueAsString(jsonResult));
             return;
         }
-        UserEntity user = objectMapper.readValue(claims.get("userDetails", String.class), UserEntity.class);
+        /*UserEntity user = objectMapper.readValue(claims.get("userDetails", String.class), UserEntity.class);
         JwtLoginToken jwtLoginToken = new JwtLoginToken(user, "", user.getAuthorities());
         jwtLoginToken.setDetails(new WebAuthenticationDetails(httpServletRequest));
-        SecurityContextHolder.getContext().setAuthentication(jwtLoginToken);
+        SecurityContextHolder.getContext().setAuthentication(jwtLoginToken);*/
         filterChain.doFilter(httpServletRequest, httpServletResponse);
+
     }
 
 

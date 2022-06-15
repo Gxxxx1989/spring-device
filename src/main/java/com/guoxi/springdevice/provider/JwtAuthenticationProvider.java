@@ -1,6 +1,9 @@
 package com.guoxi.springdevice.provider;
 
+import com.guoxi.springdevice.mybatis.entity.UserEntity;
+import com.guoxi.springdevice.service.UserLoginServiceImpl;
 import com.guoxi.springdevice.token.JwtLoginToken;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -16,16 +19,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @since 2022/6/15 16:03
  *
  */
+@RequiredArgsConstructor
 public class JwtAuthenticationProvider implements AuthenticationProvider {
 
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
+//    private final UserLoginServiceImpl userLoginService;
+    private final PasswordEncoder passwordEncoder;
 
-    private PasswordEncoder passwordEncoder;
 
-    public JwtAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-        this.userDetailsService = userDetailsService;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     /**
      * 鉴权具体逻辑

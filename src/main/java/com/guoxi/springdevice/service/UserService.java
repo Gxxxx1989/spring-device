@@ -32,7 +32,7 @@ public class UserService extends AbstractService<UserEntity, UserRepository, Use
     public UserEntity saveOrUpdateData(UserEntity entity) {
         if (StringUtils.isBlank(entity.getId())) {
             entity.setPassword(passwordEncoder.encode(entity.getPassword()));
-            UserEntity userEntity = userRepository.findByUserName(entity.getUsername());
+            UserEntity userEntity = userRepository.findByUsername(entity.getUsername());
             if (userEntity != null) {
                 throw new UsernameAlreadyExistsException("用户名已经存在！");
             }

@@ -16,5 +16,5 @@ public interface UserRepository extends AbstractRepository<UserEntity>{
      * @param userName 用户名
      * @return 用户实体类信息
      */
-    UserEntity findByUserName(String  userName);
+    UserEntity findByUsername(String  userName);
 }

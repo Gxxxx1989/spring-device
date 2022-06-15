@@ -82,8 +82,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/**/*.css", "/**/*.js", "/img/**", "/admin/images/**"
-        );
+        web.ignoring().antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/v2/**", "/api/**");
+        web.ignoring().antMatchers("/private/api/register/**");
     }
 
     /**
@@ -122,10 +122,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     // 设置登录接口路径，登录方式为 post 请求，字段为用户名 username 及密码 password
                     .loginProcessingUrl("/login")
                     //这里指定的是表单中name="username"的参数作为登录用户名，name="password"的参数作为登录密码
-                    .usernameParameter("username")
-                    .passwordParameter("password")
-                    .successHandler(authSuccessHandler)
-                    .failureHandler(authFailureHandler)
+//                    .usernameParameter("username")
+//                    .passwordParameter("password")
+//                    .successHandler(authSuccessHandler)
+//                    .failureHandler(authFailureHandler)
                 .and()
                     .logout().permitAll()
                     .addLogoutHandler(customizeLogoutHandler)
@@ -141,7 +141,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .and()
                     .csrf().disable();
-
-
     }
 }
