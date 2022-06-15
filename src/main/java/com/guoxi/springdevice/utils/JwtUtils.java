@@ -4,8 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -21,7 +19,7 @@ import java.util.Map;
  */
 @Component
 public class JwtUtils {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public static final long DEFAULT_TOKEN_TIME_MS = 30 * 60 * 1000;
 
    /*

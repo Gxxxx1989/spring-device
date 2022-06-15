@@ -29,38 +29,34 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            String token = httpServletRequest.getHeader("Authentication");
-            if (StringUtils.isEmpty(token)) {
-                httpServletResponse.setContentType("application/json;charset=UTF-8");
-                ReturnJsonUtil<String> jsonResult = new ReturnJsonUtil<>();
-                jsonResult.setStatus(ReturnStatus.USER_NOT_LOGIN);
-                jsonResult.setStatusCode(ReturnStatus.USER_NOT_LOGIN.getStatusCode());
-                jsonResult.setStatusMsg(ReturnStatus.USER_NOT_LOGIN.getStatusMsg());
-                httpServletResponse.getWriter().write(objectMapper.writeValueAsString(jsonResult));
-                return;
-            }
-
-            Claims claims = JwtUtils.parseJWT(token);
-            if (JwtUtils.isTokenExpired(claims)) {
-                httpServletResponse.setContentType("application/json;charset=UTF-8");
-                ReturnJsonUtil<String> jsonResult = new ReturnJsonUtil<>();
-                jsonResult.setStatus(ReturnStatus.USER_LOGIN_FIELD);
-                jsonResult.setStatusCode(ReturnStatus.USER_LOGIN_FIELD.getStatusCode());
-                jsonResult.setStatusMsg(ReturnStatus.USER_LOGIN_FIELD.getStatusMsg());
-                httpServletResponse.getWriter().write(new ObjectMapper().writeValueAsString(jsonResult));
-                return;
-            }
-            UserEntity user = objectMapper.readValue(claims.get("userDetails", String.class), UserEntity.class);
-            JwtLoginToken jwtLoginToken = new JwtLoginToken(user, "", user.getAuthorities());
-            jwtLoginToken.setDetails(new WebAuthenticationDetails(httpServletRequest));
-            SecurityContextHolder.getContext().setAuthentication(jwtLoginToken);
-            filterChain.doFilter(httpServletRequest, httpServletResponse);
-        } catch (Exception e) {
-            throw new BadCredentialsException("登陆凭证失效，请重新登陆");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String token = httpServletRequest.getHeader("Authentication");
+        if (StringUtils.isEmpty(token)) {
+            httpServletResponse.setContentType("application/json;charset=UTF-8");
+            ReturnJsonUtil<String> jsonResult = new ReturnJsonUtil<>();
+            jsonResult.setStatus(ReturnStatus.USER_NOT_LOGIN);
+            jsonResult.setStatusCode(ReturnStatus.USER_NOT_LOGIN.getStatusCode());
+            jsonResult.setStatusMsg(ReturnStatus.USER_NOT_LOGIN.getStatusMsg());
+            httpServletResponse.getWriter().write(objectMapper.writeValueAsString(jsonResult));
+            return;
         }
 
+        Claims claims = JwtUtils.parseJWT(token);
+        if (JwtUtils.isTokenExpired(claims)) {
+            httpServletResponse.setContentType("application/json;charset=UTF-8");
+            ReturnJsonUtil<String> jsonResult = new ReturnJsonUtil<>();
+            jsonResult.setStatus(ReturnStatus.USER_LOGIN_FIELD);
+            jsonResult.setStatusCode(ReturnStatus.USER_LOGIN_FIELD.getStatusCode());
+            jsonResult.setStatusMsg(ReturnStatus.USER_LOGIN_FIELD.getStatusMsg());
+            httpServletResponse.getWriter().write(new ObjectMapper().writeValueAsString(jsonResult));
+            return;
+        }
+        UserEntity user = objectMapper.readValue(claims.get("userDetails", String.class), UserEntity.class);
+        JwtLoginToken jwtLoginToken = new JwtLoginToken(user, "", user.getAuthorities());
+        jwtLoginToken.setDetails(new WebAuthenticationDetails(httpServletRequest));
+        SecurityContextHolder.getContext().setAuthentication(jwtLoginToken);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
+
 
 }

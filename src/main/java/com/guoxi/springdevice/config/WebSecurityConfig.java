@@ -102,6 +102,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         jwtLoginFilter.setAuthenticationFailureHandler(authFailureHandler);
         JwtTokenFilter jwtTokenFilter = new JwtTokenFilter();
 
+        //禁用session
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //过滤器
+        http.addFilter(jwtLoginFilter)
+                .addFilterAfter(jwtTokenFilter, JwtLoginFilter.class);
+        // 使用自定义验证实现器
+        JwtAuthenticationProvider jwtAuthenticationProvider = new JwtAuthenticationProvider(userService, passwordEncoder);
+
+        // 登陆验证信息
+        http.authenticationProvider(jwtAuthenticationProvider);
+
         http.authorizeRequests()
                     .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/v2/**", "/api/**").permitAll()
                     .antMatchers( "/private/api/register/**").permitAll()
@@ -130,16 +141,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .and()
                     .csrf().disable();
-        //禁用session
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        //过滤器
-        http.addFilter(jwtLoginFilter)
-        .addFilterAfter(jwtTokenFilter, JwtLoginFilter.class);
-        // 使用自定义验证实现器
-        JwtAuthenticationProvider jwtAuthenticationProvider = new JwtAuthenticationProvider(userService, passwordEncoder);
 
-        // 登陆验证信息
-        http.authenticationProvider(jwtAuthenticationProvider);
 
     }
 }
