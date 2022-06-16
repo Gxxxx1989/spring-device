@@ -1,5 +1,6 @@
 package com.guoxi.springdevice.mybatis.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.guoxi.springdevice.common.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -51,7 +52,7 @@ public class UserEntity extends AbstractEntity implements UserDetails {
     private boolean enabled;
 
 
-
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -62,16 +63,19 @@ public class UserEntity extends AbstractEntity implements UserDetails {
         return username;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;

@@ -27,6 +27,8 @@ public enum ReturnStatus {
     USER_ACCOUNT_NOT_EXIST(4006, "用户不存在"),
     USER_NOT_LOGIN(4007, "用户未登录"),
     USER_LOGIN_FIELD(4008, "登录失败"),
+    USER_LOGIN_SUCCESS(4009, "登录成功"),
+    USER_LOGIN_INVALID(4010, "登录失效"),
 
     // 其他错误
     COMMON_ERROR(9000, "未知错误");

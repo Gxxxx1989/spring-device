@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
+import static com.guoxi.springdevice.utils.JwtUtils.DEFAULT_TOKEN_TIME_MS;
+
 /**
  * 登录成功处理
  *
@@ -33,12 +35,12 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
         UserEntity jwtUserDetails = (UserEntity) authentication.getPrincipal();
         String json = objectMapper.writeValueAsString(jwtUserDetails);
         //签发token
-        String jwtToken = JwtUtils.createJwtToken(json, System.currentTimeMillis());
+        String jwtToken = JwtUtils.createJwtToken(json, DEFAULT_TOKEN_TIME_MS);
 
         // 设置返回数据格式为 json
         httpServletResponse.setContentType("text/json;charset=utf-8");
 
-        ReturnJsonUtil<Object> rj = new ReturnJsonUtil<>(ReturnStatus.SUCCESS);
+        ReturnJsonUtil<Object> rj = new ReturnJsonUtil<>(ReturnStatus.USER_LOGIN_SUCCESS);
         rj.setData(jwtToken);
         objectMapper.writeValue(httpServletResponse.getWriter(), rj);
     }
