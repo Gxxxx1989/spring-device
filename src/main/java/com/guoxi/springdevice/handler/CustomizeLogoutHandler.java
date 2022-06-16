@@ -23,7 +23,7 @@ public class CustomizeLogoutHandler implements LogoutHandler {
     public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
         log.info("注销处理类CustomizeLogoutHandler--->{}", CustomizeLogoutHandler.class.getName());
 
-        String headerToken = httpServletRequest.getHeader("Authorize");
+        String headerToken = httpServletRequest.getHeader("Authentication");
 
         log.info("headerToken--->{}", headerToken);
         if (StringUtils.isNotBlank(headerToken)) {

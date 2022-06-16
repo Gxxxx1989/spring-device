@@ -31,10 +31,10 @@ public class AccountLogoutSuccessHandler implements LogoutSuccessHandler {
         httpServletResponse.setContentType("text/json;charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
         ReturnJsonUtil<Object> rj;
-        if (authentication != null) {
-            rj = new ReturnJsonUtil<>(ReturnStatus.SUCCESS);
+        if (authentication == null) {
+            rj = new ReturnJsonUtil<>(ReturnStatus.USER_LOGOUT_SUCCESS);
         } else {
-            rj = new ReturnJsonUtil<>(ReturnStatus.USER_NOT_LOGIN);
+            rj = new ReturnJsonUtil<>(ReturnStatus.USER_LOGOUT_FIELD);
         }
         objectMapper.writeValue(httpServletResponse.getWriter(), rj);
     }
