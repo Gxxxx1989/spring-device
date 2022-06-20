@@ -27,7 +27,7 @@ public class AbstractController<T extends AbstractEntity, R extends AbstractRepo
         return service.getData(id);
     }
 
-    @PostMapping(value = "/savaOrUpdateData")
+    @PostMapping(value = "/saveOrUpdateData")
     public T savaOrUpdateUser(@RequestBody T entity) {
         return service.saveOrUpdateData(entity);
     }
