@@ -31,6 +31,7 @@ public enum ReturnStatus {
     USER_LOGIN_INVALID(4010, "登录失效"),
     USER_LOGOUT_SUCCESS(4011, "注销成功"),
     USER_LOGOUT_FIELD(4012, "注销失败"),
+    USER_UN_AUTH(4013, "权限不足"),
 
     // 其他错误
     COMMON_ERROR(9000, "未知错误");

@@ -7,6 +7,7 @@ import com.guoxi.springdevice.provider.JwtAuthenticationProvider;
 import com.guoxi.springdevice.service.UserLoginServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @author guoxi@tg-hd.com
@@ -96,50 +99,38 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // 自定义登陆拦截器
         JwtLoginFilter jwtLoginFilter = new JwtLoginFilter();
         jwtLoginFilter.setAuthenticationManager(authenticationManagerBean());
         jwtLoginFilter.setAuthenticationSuccessHandler(authSuccessHandler);
         jwtLoginFilter.setAuthenticationFailureHandler(authFailureHandler);
+
         JwtTokenFilter jwtTokenFilter = new JwtTokenFilter();
 
-        //禁用session
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        //过滤器
-        http.addFilter(jwtLoginFilter)
-                .addFilterAfter(jwtTokenFilter, JwtLoginFilter.class);
         // 使用自定义验证实现器
         JwtAuthenticationProvider jwtAuthenticationProvider = new JwtAuthenticationProvider(userService, passwordEncoder);
 
         // 登陆验证信息
-        http.authenticationProvider(jwtAuthenticationProvider);
+        http.authenticationProvider(jwtAuthenticationProvider)
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin();
 
-        http.authorizeRequests()
-                    .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/v2/**", "/api/**").permitAll()
-                    .antMatchers( "/private/api/register/**").permitAll()
-                    .anyRequest().authenticated()
+        // jwt 拦截器配置
+        http.sessionManagement()
+                //禁用session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .formLogin()
-                    // 设置登录接口路径，登录方式为 post 请求，字段为用户名 username 及密码 password
-                    .loginProcessingUrl("/login")
-                    //这里指定的是表单中name="username"的参数作为登录用户名，name="password"的参数作为登录密码
-//                    .usernameParameter("username")
-//                    .passwordParameter("password")
-//                    .successHandler(authSuccessHandler)
-//                    .failureHandler(authFailureHandler)
-                .and()
-                    .logout().permitAll()
-                    .addLogoutHandler(customizeLogoutHandler)
-                    .logoutSuccessHandler(accountLogoutSuccessHandler)
-                    .deleteCookies("JSESSIONID")
-                .and()
-                    .exceptionHandling()  // 异常处理
-                    .accessDeniedHandler(customizeAccessDeniedHandler)
-                    .authenticationEntryPoint(authEntryPoint)
-                .and()
-                    .sessionManagement()
-                    .maximumSessions(1)
-                .and()
-                .and()
-                    .csrf().disable();
+                .csrf().disable()
+                .addFilterAt(jwtLoginFilter, UsernamePasswordAuthenticationFilter.class) // 添加拦截器
+                .addFilterAfter(jwtTokenFilter, JwtLoginFilter.class);
+
+        // 权限处理信息
+        http.exceptionHandling()
+                //   用来解决认证过的用户访问无权限资源时的异常
+                .accessDeniedHandler(customizeAccessDeniedHandler)
+                // 用来解决匿名用户访问无权限资源时的异常
+                .authenticationEntryPoint(authEntryPoint);
     }
 }

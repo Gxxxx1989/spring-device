@@ -28,7 +28,8 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         log.info("异常处理类AuthEntryPoint--->{}", AuthEntryPoint.class.getName());
 
-        ReturnJsonUtil<Object> rj = new ReturnJsonUtil<>(ReturnStatus.USER_NOT_LOGIN);
+        ReturnJsonUtil<Object> rj = new ReturnJsonUtil<>(ReturnStatus.USER_UN_AUTH);
+        rj.setStatusMsg(e.getMessage());
         httpServletResponse.setContentType("text/json;charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(httpServletResponse.getWriter(), rj);

@@ -26,7 +26,7 @@ public class CustomizeAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
         log.info("拒绝访问处理类CustomizeAccessDeniedHandler--->{}", CustomizeAccessDeniedHandler.class.getName());
-
+        httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
         // 设置返回数据格式为 json
         httpServletResponse.setContentType("text/json;charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
