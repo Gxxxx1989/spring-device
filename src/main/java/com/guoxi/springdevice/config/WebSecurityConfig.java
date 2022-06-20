@@ -115,7 +115,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin();
+                .formLogin()
+                .loginProcessingUrl("/login");
 
         // jwt 拦截器配置
         http.sessionManagement()
@@ -123,7 +124,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .csrf().disable()
-                .addFilterAt(jwtLoginFilter, UsernamePasswordAuthenticationFilter.class) // 添加拦截器
+                // 添加拦截器
+                .addFilterAt(jwtLoginFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(jwtTokenFilter, JwtLoginFilter.class);
 
         // 权限处理信息
@@ -131,6 +133,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //   用来解决认证过的用户访问无权限资源时的异常
                 .accessDeniedHandler(customizeAccessDeniedHandler)
                 // 用来解决匿名用户访问无权限资源时的异常
-                .authenticationEntryPoint(authEntryPoint);
+                .authenticationEntryPoint(authEntryPoint)
+                .and().logout().addLogoutHandler(customizeLogoutHandler).permitAll().logoutSuccessHandler(accountLogoutSuccessHandler);
     }
 }
